@@ -33,7 +33,10 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # ---- 3. Runtime ---------------------------------------------------------------------------------
 FROM ${PYTHON_IMAGE} AS runtime
 
+# Debian security updates are applied on every build: base images lag behind the security
+# archive, and Trivy fails CI on fixable HIGH/CRITICAL findings.
 RUN apt-get update \
+    && apt-get upgrade --yes --no-install-recommends \
     && apt-get install --yes --no-install-recommends libimage-exiftool-perl \
     && rm -rf /var/lib/apt/lists/* \
     && groupadd --system --gid 10001 picxel \

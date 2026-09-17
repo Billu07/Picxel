@@ -1,0 +1,46 @@
+# Local stack: `docker compose up --build` → http://localhost:8000
+# Database only (for `uv run picxel dev`): `docker compose up db`
+name: picxel
+
+x-app-environment: &app-environment
+  PICXEL_ENV: local
+  PICXEL_PUBLIC_URL: http://localhost:8000
+  PICXEL_DATABASE_URL: postgresql://picxel:picxel@db:5432/picxel
+
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_USER: picxel
+      POSTGRES_PASSWORD: picxel # local development only
+      POSTGRES_DB: picxel
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./infra/postgres/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U picxel -d picxel"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    build: .
+    command: ["picxel", "migrate"]
+    environment: *app-environment
+    depends_on:
+      db:
+        condition: service_healthy
+
+  app:
+    build: .
+    environment: *app-environment
+    ports:
+      - "127.0.0.1:8000:8080"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:

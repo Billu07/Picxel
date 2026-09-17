@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Picxel · See what's really in your pixels{% endblock %}</title>
+  <meta name="description" content="{% block description %}Open-source, privacy-first image inspector. Check any image for signs of AI generation and provenance, then export it pixel-perfect for every platform.{% endblock %}">
+  {% block robots %}{% if settings.env != "production" %}<meta name="robots" content="noindex, nofollow">{% endif %}{% endblock %}
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f5f1">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0e1116">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', path='img/favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', path='css/app.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body class="flex min-h-dvh flex-col bg-surface font-sans text-fg antialiased">
+  <a href="#main" class="skip-link">Skip to content</a>
+  {% include "partials/header.html" %}
+  <main id="main" class="flex-1">
+    {% block content %}{% endblock %}
+  </main>
+  {% include "partials/footer.html" %}
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Normalize line endings so Windows and Linux contributors (and containers) agree.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.heic binary
+*.ico binary
+*.woff2 binary
+*.onnx binary

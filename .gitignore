@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+build/
+dist/
+
+# Tooling caches & reports
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.hypothesis/
+.import_linter_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Local configuration & secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Generated assets (built by `picxel css`)
+app/web/static/css/app.css
+
+# Editors & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

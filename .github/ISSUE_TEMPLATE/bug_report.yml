@@ -1,0 +1,36 @@
+name: Bug report
+description: Something isn't working as expected
+labels: ["type: bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please **don't attach private images**: describe them or use a public test image.
+        Security issues go through [SECURITY.md](../blob/main/SECURITY.md), not here.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, what did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Go to …
+        2. Upload …
+        3. See …
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Browser and OS, or the commit SHA if you self-host.
+  - type: input
+    id: request-id
+    attributes:
+      label: Request ID
+      description: Optional. Shown at the bottom of error pages; it helps us find the logs.

@@ -1,0 +1,56 @@
+/*
+ * Picxel design tokens: the single source of truth for color and type (project.md §13).
+ * Raw palette lives in @theme; semantic tokens switch with the color scheme and are exposed
+ * to Tailwind via @theme inline (bg-surface, text-fg, text-muted, border-line, text-accent…).
+ */
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-ink: #0e1116;
+  --color-paper: #f6f5f1;
+
+  --color-signal-50: #f1efff;
+  --color-signal-100: #e4e0ff;
+  --color-signal-200: #cbc4ff;
+  --color-signal-300: #aba0ff;
+  --color-signal-400: #8b7dff;
+  --color-signal-500: #6b5bff;
+  --color-signal-600: #5540f0;
+  --color-signal-700: #4531c9;
+  --color-signal-800: #37289f;
+  --color-signal-900: #2b2178;
+}
+
+:root {
+  --surface: #f6f5f1;        /* paper */
+  --surface-raised: #ffffff;
+  --fg: #0e1116;             /* ink */
+  --muted: #4a4f5c;          /* 7.5:1 on paper */
+  --line: #e3e1da;
+  --accent: #5540f0;         /* signal-600, text-safe (5.7:1 on paper) */
+  --accent-fill: #6b5bff;    /* signal-500, non-text UI */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --surface: #0e1116;
+    --surface-raised: #161a22;
+    --fg: #f6f5f1;
+    --muted: #a8adb8;        /* 8.4:1 on ink */
+    --line: #262a33;
+    --accent: #aba0ff;       /* signal-300, text-safe on ink */
+    --accent-fill: #8b7dff;
+  }
+}
+
+@theme inline {
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-fg: var(--fg);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-fill: var(--accent-fill);
+}

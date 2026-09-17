@@ -1,0 +1,49 @@
+/* Tailwind entry point. Build with `uv run picxel css` (output: app.css, git-ignored). */
+@import "tailwindcss" source(none);
+@import "./tokens.css";
+
+@source "../../templates";
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: color-mix(in oklab, var(--accent-fill) 30%, transparent);
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-fg focus:px-3 focus:py-2 focus:text-surface;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs font-medium tracking-widest text-accent uppercase;
+  }
+
+  .link {
+    @apply font-medium text-fg underline decoration-line underline-offset-4 transition-colors hover:decoration-accent;
+  }
+
+  .button {
+    @apply inline-flex items-center justify-center rounded-lg bg-fg px-4 py-2.5 text-sm font-semibold text-surface transition-opacity hover:opacity-90;
+  }
+
+  .dropzone {
+    @apply relative isolate overflow-hidden rounded-2xl border-2 border-dashed border-line bg-surface-raised px-6 py-16 text-center sm:py-24;
+  }
+
+  .pixel-grid {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-image:
+      linear-gradient(to right, var(--line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--line) 1px, transparent 1px);
+    background-size: 24px 24px;
+    mask-image: radial-gradient(ellipse at center, #000 15%, transparent 70%);
+  }
+}

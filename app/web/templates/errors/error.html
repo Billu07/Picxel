@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}{{ status_code }} {{ title }} · Picxel{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-4 py-24 sm:px-6">
+  <p class="eyebrow">Error {{ status_code }}</p>
+  <h1 class="mt-4 text-4xl font-semibold tracking-tight">{{ title }}</h1>
+  <p class="mt-4 max-w-xl text-lg text-muted">{{ message }}</p>
+  <a href="{{ url_for('home') }}" class="button mt-8">Back to home</a>
+  {% if request_id %}
+  <p class="mt-10 font-mono text-xs text-muted">Request ID: {{ request_id }}</p>
+  {% endif %}
+</section>
+{% endblock %}

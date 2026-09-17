@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="mx-auto max-w-6xl px-4 pb-16 pt-14 sm:px-6 sm:pt-24">
+  <p class="eyebrow">Open source · Privacy-first · In development</p>
+  <h1 class="mt-5 max-w-3xl text-balance text-4xl font-semibold tracking-tight sm:text-6xl">
+    See what's really in your pixels.
+  </h1>
+  <p class="mt-6 max-w-2xl text-pretty text-lg leading-relaxed text-muted">
+    Picxel checks any image for signs of AI generation and provenance, and shows you the evidence.
+    Then it exports a pixel-perfect version for every platform, with its disclosure intact.
+  </p>
+
+  <div class="dropzone mt-12">
+    <div class="pixel-grid" aria-hidden="true"></div>
+    <p class="text-base font-semibold">The Image Inspector is being built</p>
+    <p class="mt-1 text-sm text-muted">When it launches, drop an image here. It's processed in memory and never stored.</p>
+  </div>
+</section>
+
+<section class="border-t border-line bg-surface-raised" aria-labelledby="pillars-heading">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <h2 id="pillars-heading" class="eyebrow">What Picxel does</h2>
+    <ul class="mt-8 grid gap-10 sm:grid-cols-3">
+      <li>
+        <h3 class="text-lg font-semibold">Inspect</h3>
+        <p class="mt-2 text-muted">Evidence, not a mystery percentage: Content Credentials, metadata, watermarks, and a calibrated detector, each explained.</p>
+      </li>
+      <li>
+        <h3 class="text-lg font-semibold">Studio</h3>
+        <p class="mt-2 text-muted">Exact sizes, accurate color, and clean compression for every platform, so your uploads stay sharp.</p>
+      </li>
+      <li>
+        <h3 class="text-lg font-semibold">Honest by design</h3>
+        <p class="mt-2 text-muted">Open source, published accuracy, no image storage. We never strip AI disclosures.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+{% endblock %}

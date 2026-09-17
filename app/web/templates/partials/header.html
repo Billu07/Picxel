@@ -1,0 +1,11 @@
+<header class="border-b border-line">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4 sm:px-6">
+    <a href="{{ url_for('home') }}" class="inline-flex items-center gap-2.5 rounded-md text-lg font-semibold tracking-tight" aria-label="Picxel home">
+      {% include "partials/logo_mark.html" %}
+      <span aria-hidden="true">Pic<span class="text-accent">x</span>el</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="{{ repository_url }}" class="rounded-md px-3 py-2 text-sm font-medium text-muted transition-colors hover:text-fg">Open source</a>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,29 @@
+name: Feature request
+description: Suggest an improvement or a new capability
+labels: ["type: feature", "needs triage"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+      description: Describe who needs this and why. Focus on the problem before the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: detector-test
+    attributes:
+      label: The detector test
+      description: Picxel never helps hide an image's origin (decision.md D-001).
+      options:
+        - label: This feature does not work better when an AI detector, watermark, or disclosure label fails.
+          required: true

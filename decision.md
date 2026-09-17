@@ -30,6 +30,7 @@
 | D-006 | 2026-09-15 | Incident/Lesson | Use 127.0.0.1, not localhost, for local Postgres | Accepted |
 | D-007 | 2026-09-15 | Incident/Lesson | Starlette 1.6 test client needs httpx2; filter warnings narrowly | Accepted |
 | D-008 | 2026-09-15 | Product | Corrections: subdomain spelling, GitHub account, commit identity | Accepted |
+| D-009 | 2026-09-17 | Incident/Lesson | Apply OS security updates when building the runtime image | Accepted |
 
 ---
 
@@ -280,3 +281,33 @@ Note: removing *personal privacy* metadata (GPS, device serials, camera owner na
 **Guardrail / lesson** — Read domain names and account names back to the owner, letter by letter, before they spread into files. A one-letter swap here touched 9 files. In code, the repository URL lives in one constant (`app.core.meta.REPOSITORY_URL`) and the public URL in one setting (`PICXEL_PUBLIC_URL`).
 
 **Revisit if** — The repository link the owner shares isn't `billu07/picxel`.
+
+*Update 2026-09-17:* the owner shared `https://github.com/Billu07/Picxel`. Files now use that exact spelling.
+
+---
+
+## D-009 — Apply OS security updates when building the runtime image
+- **Date:** 2026-09-17
+- **Status:** Accepted
+- **Type:** Incident/Lesson
+- **Deviates from:** — (build policy, discovered by CI)
+- **Decided by:** engineering
+
+**Context** — The first CI run on GitHub failed its Trivy scan with 6 fixable HIGH findings, all from packages inherited from `python:3.12-slim`: `gzip` (CVE-2026-41992), `libpcre2-8-0` (CVE-2026-86145, CVE-2026-89157, CVE-2026-89161) and `libsqlite3-0` (CVE-2026-11822, CVE-2026-11824). Published base images lag behind Debian's security archive between rebuilds. Everything else in that run passed, including the container build and smoke test.
+
+**Options considered**
+
+| Option | Verdict |
+|---|---|
+| Lower the Trivy threshold, or stop failing the build | Rejected: the gate exists to catch exactly this |
+| Ignore these specific CVEs | Rejected: fixes were available; the list would grow every month |
+| **Upgrade installed packages in the runtime stage at build time** | Chosen |
+| Pin the base image by digest | Rejected for now: it freezes security fixes. Dependabot tracks the tag instead |
+
+**Decision** — The runtime stage runs `apt-get upgrade` before installing ExifTool, so every image build picks up current Debian security fixes.
+
+**Consequences** — Builds are slightly less reproducible: the same Dockerfile produces different package versions over time. That is the intended trade-off for a public web service. A rebuild is now also the fix for OS-level CVEs, and Trivy keeps failing CI when fixable HIGH/CRITICAL findings remain.
+
+**Guardrail / lesson** — Never widen the vulnerability gate to make a build pass. Fix the image, or record a specific, time-boxed exception with a reason. Run a container scan locally before pushing image changes.
+
+**Revisit if** — Base-image rebuilds become frequent enough that the upgrade is a no-op, or a reproducible-build requirement arrives (then pin by digest and rebuild on a schedule).

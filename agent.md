@@ -5,10 +5,11 @@
 
 | | |
 |---|---|
-| **Last updated** | 2026-09-15 |
+| **Last updated** | 2026-09-17 |
 | **Plan version** | `project.md` v1.1 |
-| **Current phase** | Phase 0 — Foundations (in progress: steps 1–7 of 15 done) |
-| **Overall health** | 🟢 On track. Local foundation verified; waiting on the repo link, then cloud accounts |
+| **Current phase** | Phase 0 — Foundations (steps 1–8 of 15 done) |
+| **Repository** | https://github.com/Billu07/Picxel — public, CI green on `main` |
+| **Overall health** | 🟢 On track. Code is live and verified; cloud setup waits on owner accounts |
 
 ---
 
@@ -17,7 +18,7 @@
 | Phase | Name | Status | Progress |
 |---|---|---|---|
 | — | Planning | ✅ Done | 100% |
-| 0 | Foundations | 🔨 In progress | ~45% (7 of 15 steps) |
+| 0 | Foundations | 🔨 In progress | ~55% (8 of 15 steps) |
 | 1 | Detection R&D | ⬜ Not started | — |
 | 2 | Inspector MVP & public beta | ⬜ Not started | — |
 | 3 | Studio | ⬜ Not started | — |
@@ -28,30 +29,27 @@
 ---
 
 ## Where we are now
-The local foundation is built and verified: app skeleton, branded placeholder pages, security baseline, database + migrations, container, compose stack, CI workflow, and community files.
-**Nothing is committed or pushed yet.** Next step: the owner shares the GitHub repository link, and the push account (`billu07`) is signed in.
+The foundation is published and CI is green. `main` has two commits:
+- `672c14c` — Phase 0 scaffold (81 files)
+- `b744b8c` — Debian security updates in the runtime image (D-009)
 
-Verified on 2026-09-15:
-- `uv run picxel check` passes: ruff, ruff format, mypy (strict), import contracts (2 kept), pytest
-- 38 tests pass (36 app + 2 against real PostgreSQL 17); coverage **92.5%** (gate: 80%)
-- Container image builds (419 MB), runs as non-root `picxel`, ExifTool 13.25 present
-- Container smoke test: `/api/v1/health`, `/api/v1/version`, `/`, `/static/css/app.css`, API 404 problem+json all correct
-- `docker compose run --rm migrate` applies revision `0001`
-- All pre-commit hooks pass
-- ⚠️ CI workflow is written but **has never run on GitHub**. Expect small fixes on the first run.
+CI run `35192175538` passed all four jobs: lint/types/contracts, tests against PostgreSQL, dependency audit, and container build + smoke test + Trivy scan.
+
+Local verification (2026-09-15 to 2026-09-17): `uv run picxel check` green · 38 tests, coverage 92.5% · image builds and serves · `docker compose run --rm migrate` applies revision `0001` · all pre-commit hooks pass.
 
 ---
 
 ## Done
-- **2026-09-15** — Corrections: subdomain `picxel.autolinium.com`, GitHub account `billu07`, repo-local commit identity `billu07 <billahmasum602@gmail.com>` (D-008)
+- **2026-09-17** — Repository published at `Billu07/Picxel`; first CI run surfaced 6 fixable HIGH CVEs in the base image; fixed and re-pushed; **CI green** (D-009)
+- **2026-09-15** — Corrections: subdomain `picxel.autolinium.com`, GitHub `Billu07`, repo-local commit identity (D-008)
 - **2026-09-15** — Owner confirmations: name Picxel, AGPL-3.0, defaults for the rest (D-003)
-- **2026-09-15** — Step 1: git repo (`main`); official AGPL-3.0 `LICENSE`; README, CONTRIBUTING, CODE_OF_CONDUCT (Contributor Covenant 2.1), SECURITY, GOVERNANCE; issue/PR templates; CODEOWNERS; Dependabot
-- **2026-09-15** — Step 2: uv project (Python 3.12), ruff, mypy strict, import-linter contracts (incl. the D-001 Studio guardrail), pytest + 80% coverage gate, pre-commit
-- **2026-09-15** — Step 3: FastAPI app factory; `/api/v1/health`, `/api/v1/health/ready`, `/api/v1/version`; RFC 9457 errors; request IDs + JSON access logs; CSP nonce + security headers; HSTS on deployed envs
-- **2026-09-15** — Step 4: Jinja2 layout, header/footer, logo mark, favicon, home + branded error pages; light/dark design tokens; Tailwind v4.3.3 standalone build (no Node)
-- **2026-09-15** — Step 5: 3-stage Dockerfile (non-root, ExifTool) + `compose.yaml` (db, migrate, app) at repo root (D-004)
+- **2026-09-15** — Step 1: git repo; AGPL-3.0 `LICENSE`; README, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY, GOVERNANCE; issue/PR templates; CODEOWNERS; Dependabot
+- **2026-09-15** — Step 2: uv project (Python 3.12), ruff, mypy strict, import contracts (incl. the D-001 Studio guardrail), pytest + 80% coverage gate, pre-commit
+- **2026-09-15** — Step 3: FastAPI app factory; health, readiness, version endpoints; RFC 9457 errors; request IDs + JSON access logs; CSP nonce + security headers
+- **2026-09-15** — Step 4: Jinja2 layout, header/footer, logo mark, favicon, home + branded error pages; light/dark tokens; Tailwind v4.3.3 standalone build
+- **2026-09-15** — Step 5: 3-stage Dockerfile (non-root, ExifTool) + `compose.yaml` at repo root (D-004)
 - **2026-09-15** — Step 6: SQLAlchemy 2 (sync) + psycopg 3 + Alembic baseline `0001` (D-005)
-- **2026-09-15** — Step 7: GitHub Actions CI with lint/types/contracts, tests with a Postgres service, pip-audit, container build + smoke test + Trivy scan; actions pinned by commit SHA
+- **2026-09-15** — Step 7: GitHub Actions CI; actions pinned by commit SHA
 - **2026-09-15** — Lessons logged: `127.0.0.1` over `localhost` (D-006); `httpx2` + narrow warning filters (D-007)
 - **2026-09-14** — Planning docs; D-000, D-001, D-002
 
@@ -60,19 +58,20 @@ Verified on 2026-09-15:
 ## Now — Phase 0 (remaining)
 
 ### Owner actions (only you can do these)
-- [ ] Share the GitHub repository link (provisionally assumed `https://github.com/billu07/picxel`)
-- [ ] Sign in to `billu07` for pushing: type `! gh auth login` in this session. Alternatively, add `autolinium-glitch` as a collaborator on the repo
+- [ ] **Repo settings** at github.com/Billu07/Picxel → Settings (the CLI here is read-only, see Environment):
+  - [ ] Security → enable **private vulnerability reporting** (`SECURITY.md` points people to it)
+  - [ ] Rules/Branches → protect `main`: require a pull request, require CI checks to pass
 - [ ] Set up the Code of Conduct contact mailbox (Q11)
 - [ ] Create Google Cloud account + billing account (card); project `picxel`
 - [ ] Create Neon account
 - [ ] Confirm who manages DNS for `autolinium.com` and whether it's on Cloudflare (Q1b)
 - [ ] Create Sentry account
+- [ ] Optional: review Dependabot pull requests as they appear
 
 ### Engineering sequence (in order)
-8. [ ] Initial commit, push, first green CI run, then private vulnerability reporting + branch protection *(needs repo link + push access; owner says "commit and publish")*
 9. [ ] GCP: Artifact Registry + cleanup policy, Cloud Run staging/prod with caps, budget alerts *(needs GCP account)*
 10. [ ] Neon `main` + `staging` branches wired through secrets *(needs Neon account)*
-11. [ ] Custom-domain spike (`project.md` §11.2, options A/B/C) → log as next decision ID (D-009)
+11. [ ] Custom-domain spike (`project.md` §11.2, options A/B/C) → log as D-010
 12. [ ] Cloudflare: DNS for `picxel.autolinium.com` + `picxel-staging.autolinium.com`, SSL Full (strict), rate-limit rule, Turnstile keys, Access on staging *(needs Q1b)*
 13. [ ] CD: deploy staging on merge to `main`, production on tag with approval
 14. [ ] Brand sprint v0: self-hosted Inter + JetBrains Mono, logo refinement, name availability checks
@@ -93,18 +92,17 @@ Verified on 2026-09-15:
 
 | # | Question | Blocks | Default if unanswered |
 |---|---|---|---|
-| **Q12** | GitHub repository link (repo name under `billu07`)? | Step 8 | `billu07/picxel` |
-| **Q11** | Code of Conduct contact email (owner is setting one up). `CODE_OF_CONDUCT.md` still has `[INSERT CONTACT METHOD]` | Announcing the repo publicly | Placeholder stays until provided |
-| Q13 | Keep `billahmasum602@gmail.com` visible in public commit history, or use GitHub's private `noreply` address for commits? | First commit | Use the email as given |
-| Q1b | Who manages DNS for `autolinium.com`, and is it on Cloudflare? (AdSense + `ads.txt` live at the root) | Step 12, Phase 4 | — |
+| **Q11** | Code of Conduct contact email (owner is setting one up). `CODE_OF_CONDUCT.md` still has `[INSERT CONTACT METHOD]` | Announcing the repo publicly | Placeholder stays |
+| Q1b | Who manages DNS for `autolinium.com`, and is it on Cloudflare? (AdSense + `ads.txt` live at the root) | Steps 11–12, Phase 4 | — |
 | Q7 | Your legal jurisdiction (legal pages, consent, reporting duties)? | Phase 2 legal pages | — |
 
-Resolved: Q1 subdomain + Q9 spelling → `picxel.autolinium.com` · Q2 keep name · Q3 AGPL-3.0 · Q4 + Q10 GitHub/commit identity `billu07` · Q5 20 h/week · Q6 standalone sub-brand · Q8 owner + Claude (D-003, D-008).
+Resolved: Q1 + Q9 subdomain `picxel.autolinium.com` · Q2 keep name · Q3 AGPL-3.0 · Q4 + Q10 GitHub `Billu07` · Q5 20 h/week · Q6 standalone sub-brand · Q8 owner + Claude · Q12 repo link (D-003, D-008).
+Note: commits carry `billahmasum602@gmail.com`, now public in the repo history. Switching to a GitHub `noreply` address later would only apply to new commits.
 
 ---
 
 ## Blockers
-- **Repo link + push access** (`gh` is signed in as `autolinium-glitch` only) block step 8.
+- Repo settings (vulnerability reporting, branch protection) need the owner or a CLI login as `Billu07`.
 - Owner cloud accounts block steps 9–13.
 
 ---
@@ -113,10 +111,10 @@ Resolved: Q1 subdomain + Q9 spelling → `picxel.autolinium.com` · Q2 keep name
 
 | Item | State |
 |---|---|
-| Local folder | `D:\Autolinium V2\Projects\Picxel`: git repo on `main`, **no commits yet**; repo-local identity `billu07 <billahmasum602@gmail.com>` |
+| Local folder | `D:\Autolinium V2\Projects\Picxel`: `main` tracking `origin/main`; identity `billu07 <billahmasum602@gmail.com>` (repo-local) |
+| GitHub | `Billu07/Picxel`, public, CI green. Local `gh` CLI is signed in as `autolinium-glitch` → **read-only** on this repo; `git push` works through Git Credential Manager |
 | Tooling | uv 0.12.13 (`~/.local/bin`), Python 3.12.14 managed by uv; `.venv` synced |
-| Docker | Docker Desktop 29.6.2. Images `picxel:local`, `picxel-migrate`; volume `picxel_pgdata` (db container stopped) |
-| GitHub | Owner account `billu07`; repo link pending. Local `gh` CLI signed in as `autolinium-glitch` |
+| Docker | Docker Desktop 29.6.2; its engine crashed once during a local Trivy scan and was restarted. Images `picxel:local`, `picxel-migrate`; volume `picxel_pgdata` (db stopped) |
 | GCP / Neon / Cloudflare / Sentry | Not created |
 | Domain | `picxel.autolinium.com` (staging `picxel-staging.autolinium.com`); DNS not configured |
 | Secrets | None. **Never commit secrets.** GitHub Environments + GCP Secret Manager only |
@@ -126,27 +124,31 @@ Resolved: Q1 subdomain + Q9 spelling → `picxel.autolinium.com` · Q2 keep name
 ## Quick reference
 - **Run:** `uv run picxel dev` → http://127.0.0.1:8000
 - **All checks:** `uv run picxel check`
-- **With Postgres:** `docker compose up db`, then set `PICXEL_TEST_DATABASE_URL=postgresql://picxel:picxel@127.0.0.1:5432/picxel_test`
+- **With Postgres:** `docker compose up db`, then `PICXEL_TEST_DATABASE_URL=postgresql://picxel:picxel@127.0.0.1:5432/picxel_test`
 - **Full stack in Docker:** `docker compose up --build` → http://localhost:8000
 - **Single sources of truth:** public URL = `PICXEL_PUBLIC_URL`; repo URL = `app/core/meta.py` `REPOSITORY_URL` (+ `pyproject.toml`, `CODEOWNERS`, issue-template config)
 - **Pins to keep in sync:** Tailwind `v4.3.3` (`app/cli.py`); uv image `0.12.13` (`Dockerfile`); GitHub Actions by SHA (Dependabot updates them)
-- **Gotchas:** use `127.0.0.1`, never `localhost` (D-006) · TestClient needs `httpx2` (D-007) · uv's "failed to hardlink" warning on the D: drive is harmless (set `UV_LINK_MODE=copy` to silence it)
+- **Gotchas:** use `127.0.0.1`, never `localhost` (D-006) · TestClient needs `httpx2` (D-007) · a shell without a terminal can't prompt for git credentials: push with `GCM_GUI_PROMPT=1` and `credential.guiPrompt=true` so the credential window appears · uv's "failed to hardlink" warning on the D: drive is harmless
 
 ## Key numbers
 - Upload limits: **20 MB**, **50 MP**, 30 s timeout
 - Latency: inspect p95 **≤ 5 s** warm · export p95 **≤ 4 s** · cold start ≤ 15 s
 - Detector gate: real-photo FPR **≤ 2%** at `T_high`; ECE ≤ 0.05
 - Cloud Run caps: min **0**, max **3** instances; budget alerts $1 / $5 / $10
-- Current: coverage 92.5% (gate 80%) · image 419 MB · CSS 12.6 KB
+- Current: coverage 92.5% (gate 80%) · CI ~1 min · CSS 12.6 KB
 
 ---
 
 ## Session log (newest first)
 
+### 2026-09-17 — Session 3: Published the repository, CI green
+- **Did:** Corrected the repo URL casing to `Billu07/Picxel`. Committed the Phase 0 scaffold (`672c14c`, 81 files) and pushed to GitHub. First CI run failed only on the Trivy image scan (6 fixable HIGH CVEs in base-image packages); added Debian security updates to the runtime stage and pushed `b744b8c`; CI now green. Logged D-009.
+- **Notes:** The `gh` CLI can't change repo settings (read-only account), so branch protection and private vulnerability reporting are owner tasks. Docker Desktop's engine crashed mid-scan and was restarted.
+- **Next session starts with:** owner's cloud accounts → step 9 (GCP: Artifact Registry, Cloud Run services with caps, budget alerts), then Neon and the domain spike (D-010).
+
 ### 2026-09-15 — Session 2: Phase 0 local foundation
-- **Did:** Recorded owner answers. Installed uv and Python 3.12. Built Phase 0 steps 1–7: community files, tooling, FastAPI skeleton with security baseline, branded placeholder pages + design tokens, Tailwind build, database layer + Alembic, Dockerfile + compose, CI workflow. Verified with `picxel check`, real-Postgres tests, container build + smoke test, compose migration, and pre-commit. Updated `project.md` to v1.1. Then applied owner corrections: `picxel.autolinium.com`, GitHub `billu07`, repo-local commit identity.
-- **Decided:** D-003 (owner confirmations), D-004 (Docker files at root), D-005 (sync DB driver), D-006 (127.0.0.1 lesson), D-007 (httpx2 + narrow warning filters), D-008 (corrections).
-- **Next session starts with:** owner shares repo link and signs in `billu07` → step 8 (initial commit, push, first CI run, fix anything CI surfaces) → cloud steps once accounts exist.
+- **Did:** Built Phase 0 steps 1–7: community files, tooling, FastAPI skeleton with security baseline, branded placeholder pages + design tokens, Tailwind build, database layer + Alembic, Dockerfile + compose, CI workflow. Verified with `picxel check`, real-Postgres tests, container build + smoke test, compose migration, pre-commit. Updated `project.md` to v1.1.
+- **Decided:** D-003, D-004, D-005, D-006, D-007, D-008.
 
 ### 2026-09-14 — Session 1: Kickoff & planning
 - **Did:** Reviewed the brief. Declined the detector-evasion core; owner chose Inspector + Studio. Owner approved a GCP billing account. Wrote `project.md` v1.0, `agent.md`, `decision.md`.
